@@ -34,8 +34,11 @@ class SupabaseDatabase {
         return data;
       },
       delete: async (id) => {
-        const { error } = await supabase.from(name).delete().eq('id', id);
+        const { data, error } = await supabase.from(name).delete().eq('id', id).select();
         if (error) throw error;
+        if (!data || data.length === 0) {
+          throw new Error("Não foi possível apagar o registro. Verifique se tem permissões ou se o registro ainda existe.");
+        }
       }
     };
   }
