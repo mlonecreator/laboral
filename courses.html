@@ -190,6 +190,27 @@
     </div>
   </div>
 
+  <!-- Modal Confirm Delete -->
+  <div class="modal-overlay" id="modal-confirm-delete">
+    <div class="modal" style="max-width: 400px;">
+      <div class="modal-header">
+        <h2>Confirmar Eliminação</h2>
+        <button class="modal-close" onclick="ui.closeModal('modal-confirm-delete')"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body text-center py-6">
+        <div class="mb-4" style="color: var(--color-danger-500);">
+          <i data-lucide="alert-triangle" style="width: 48px; height: 48px;"></i>
+        </div>
+        <p class="font-bold mb-2">Tens a certeza?</p>
+        <p class="text-gray text-sm">Esta ação é permanente e irá remover o curso, todas as suas aulas e materiais de apoio.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" onclick="ui.closeModal('modal-confirm-delete')">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-delete">Sim, Eliminar</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="/assets/js/courses.js"></script>
 </body>
 </html>

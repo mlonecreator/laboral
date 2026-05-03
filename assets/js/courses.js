@@ -242,18 +242,29 @@ async function processFileAndUrl(fileInputId, urlInputId, maxSizeMB = 100) {
   return urlInput ? urlInput.value : null;
 }
 
-window.deleteCourse = async (id) => {
-  if (confirm("Tem a certeza que deseja apagar este curso?")) {
+  let courseToDeleteId = null;
+  window.deleteCourse = (id) => {
+    courseToDeleteId = id;
+    ui.openModal('modal-confirm-delete');
+  };
+
+  document.getElementById('btn-confirm-delete').addEventListener('click', async () => {
+    if (!courseToDeleteId) return;
+    const btn = document.getElementById('btn-confirm-delete');
+    ui.setLoading(btn, true);
     try {
-      await db.collection('courses').delete(id);
+      await db.collection('courses').delete(courseToDeleteId);
       ui.toast('Curso removido!', 'success');
+      ui.closeModal('modal-confirm-delete');
       await renderCourses();
     } catch (e) {
       console.error(e);
       ui.toast('Erro ao apagar curso: ' + (e.message || 'Verifique se existem aulas ou matrículas associadas'), 'error');
+    } finally {
+      ui.setLoading(btn, false);
+      courseToDeleteId = null;
     }
-  }
-};
+  });
 
 async function renderCourses() {
   try {
