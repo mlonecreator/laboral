@@ -183,9 +183,17 @@
 }
 .modal-close:hover { color: var(--color-gray-900); }
 
+.modal form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
 .modal-body {
   padding: 24px;
   overflow-y: auto;
+  flex: 1;
 }
 
 .modal-footer {
