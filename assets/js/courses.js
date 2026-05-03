@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         description: document.getElementById('c-desc').value,
         thumbnail: thumbValue || 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
         duration: document.getElementById('c-dur').value,
-        price: document.getElementById('c-price').value,
+        price: parseFloat(document.getElementById('c-price').value) || 0,
         status: document.getElementById('c-status').value,
       };
       const id = document.getElementById('c-id').value;
