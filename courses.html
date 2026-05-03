@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Cursos - Laboral Admin</title>
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/layout.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a href="/admin/dashboard.html" class="sidebar-header"><i data-lucide="book-open"></i><span>Laboral</span></a>
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard.html" class="nav-item"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+        <a href="/admin/courses.html" class="nav-item active"><i data-lucide="graduation-cap"></i> <span>Cursos</span></a>
+        <a href="/admin/students.html" class="nav-item"><i data-lucide="users"></i> <span>Alunos</span></a>
+        <a href="/admin/enrollments.html" class="nav-item"><i data-lucide="clipboard-list"></i> <span>Matrículas</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div data-user="avatar"></div>
+        <div class="user-info"><span class="name" data-user="name">Admin</span><span class="role" data-user="role">...</span></div>
+        <button id="logout-btn" class="icon-btn"><i data-lucide="log-out"></i></button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-header">
+        <div class="flex items-center gap-4"><button class="mobile-toggle"><i data-lucide="menu"></i></button><h2>Cursos</h2></div>
+      </header>
+
+      <section class="page-content">
+        <div class="page-header">
+          <div>
+            <h1 class="mb-4">Gestão de Cursos</h1>
+            <p class="text-gray" id="total-courses">0 Cursos totais</p>
+          </div>
+          <button class="btn btn-primary" onclick="window.coursesModal.open()"><i data-lucide="plus"></i> Novo Curso</button>
+        </div>
+
+        <div class="grid-3" id="courses-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal Course Form -->
+  <div class="modal-overlay" id="modal-course">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 id="mc-title">Novo Curso</h2>
+        <button class="modal-close"><i data-lucide="x"></i></button>
+      </div>
+      <form id="course-form">
+        <div class="modal-body">
+          <input type="hidden" id="c-id">
+          
+          <div class="form-group">
+            <label>Título do Curso *</label>
+            <input type="text" id="c-title" class="form-control" required>
+          </div>
+
+          <div class="grid-4" style="grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label>Categoria *</label>
+              <select id="c-cat" class="form-control" required>
+                <option value="Programação">Programação</option>
+                <option value="Design">Design</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Negócios">Negócios</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nível *</label>
+              <select id="c-level" class="form-control" required>
+                <option value="Iniciante">Iniciante</option>
+                <option value="Intermédio">Intermédio</option>
+                <option value="Avançado">Avançado</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Descrição *</label>
+            <textarea id="c-desc" class="form-control" rows="3" required></textarea>
+          </div>
+          
+          <div class="form-group" style="border: 1px dashed var(--color-gray-300); padding: 16px; border-radius: var(--radius-md); background: var(--color-gray-50);">
+            <label style="color: var(--color-brand-700); font-weight: 600;" class="mb-2 block">Imagem de Capa (Upload Local)</label>
+            <input type="file" id="c-thumb-file" class="form-control mb-2" accept="image/*">
+            <div class="text-sm text-gray mb-1">Ou informe um link externo:</div>
+            <input type="url" id="c-thumb" class="form-control" placeholder="https://...">
+          </div>
+
+          <div class="grid-4" style="grid-template-columns: 1fr 1fr 1fr; gap:16px;">
+            <div class="form-group"><label>Duração (ex: 4h)</label><input type="text" id="c-dur" class="form-control"></div>
+            <div class="form-group"><label>Preço</label><input type="number" id="c-price" class="form-control" placeholder="0 = Gratuito"></div>
+            <div class="form-group">
+              <label>Estado</label>
+              <select id="c-status" class="form-control"><option value="draft">Rascunho</option><option value="published">Publicado</option></select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="c-submit">Guardar Curso</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Lessons List -->
+  <div class="modal-overlay" id="modal-lessons">
+    <div class="modal" style="max-width: 700px;">
+      <div class="modal-header">
+        <h2 id="ml-title">Aulas do Curso</h2>
+        <button class="modal-close"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="flex justify-between items-center mb-4">
+           <p class="text-gray text-sm">Organize as aulas ou adicione novas.</p>
+           <button class="btn btn-primary btn-sm" onclick="window.lessonModal.open()"><i data-lucide="plus"></i> Nova Aula</button>
+        </div>
+        <div id="lessons-list-container" class="data-table">
+            <!-- Lessons injected here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Lesson Form -->
+  <div class="modal-overlay" id="modal-lesson-form">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 id="mlf-title">Nova Aula</h2>
+        <button class="modal-close" onclick="ui.closeModal('modal-lesson-form')"><i data-lucide="x"></i></button>
+      </div>
+      <form id="lesson-form">
+        <div class="modal-body">
+          <input type="hidden" id="l-id">
+          
+          <div class="form-group">
+            <label>Título da Aula *</label>
+            <input type="text" id="l-title" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label>Legenda / Subtítulo</label>
+            <input type="text" id="l-subtitle" class="form-control">
+          </div>
+
+          <div class="form-group" style="border: 1px dashed var(--color-gray-300); padding: 16px; border-radius: var(--radius-md); background: var(--color-gray-50);">
+            <label style="color: var(--color-brand-700); font-weight: 600;" class="mb-2 block">Ficheiro de Vídeo (Upload MP4/WebM) *</label>
+            <input type="file" id="l-video-file" class="form-control mb-2" accept="video/*">
+            <div class="text-sm text-gray mb-1">Ou URL do Vídeo (YouTube/Vimeo Embed):</div>
+            <input type="url" id="l-video" class="form-control" placeholder="https://youtube.com/embed/...">
+          </div>
+
+          <div class="grid-4" style="grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label>Duração (ex: 15:30)</label>
+              <input type="text" id="l-dur" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Ordem</label>
+              <input type="number" id="l-order" class="form-control" value="1" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Descrição</label>
+            <textarea id="l-desc" class="form-control" rows="4"></textarea>
+          </div>
+          
+          <div class="form-group" style="border: 1px dashed var(--color-gray-300); padding: 16px; border-radius: var(--radius-md); background: var(--color-gray-50);">
+            <label style="color: var(--color-brand-700); font-weight: 600;" class="mb-2 block">Material Anexado (Upload de PDF, ZIP, etc)</label>
+            <input type="file" id="l-resource-file" class="form-control mb-2">
+            <div class="text-sm text-gray mb-1">Ou link para o ficheiro externo:</div>
+            <input type="url" id="l-resource" class="form-control" placeholder="https://...">
+            <span class="text-xs text-gray mt-1 block">Ficheiro que será disponibilizado para download.</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="ui.closeModal('modal-lesson-form')">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar Aula</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/assets/js/courses.js"></script>
+</body>
+</html>

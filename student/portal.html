@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Portal do Aluno - Laboral</title>
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/layout.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header"><i data-lucide="book-open"></i><span>Laboral Portal</span></div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" id="menu-courses"><i data-lucide="book"></i> <span>Meus Cursos</span></a>
+        <a href="#" class="nav-item" id="menu-profile"><i data-lucide="user"></i> <span>Meu Perfil</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div data-user="avatar"></div>
+        <div class="user-info"><span class="name" data-user="name">...</span></div>
+        <button id="logout-btn" class="icon-btn" title="Terminar Sessão" aria-label="Sair"><i data-lucide="log-out"></i></button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-header">
+        <div class="flex items-center gap-4"><button class="mobile-toggle"><i data-lucide="menu"></i></button><h2>Estudar</h2></div>
+      </header>
+
+      <section class="page-content" id="view-dashboard">
+        <h1 class="mb-8">Meus Cursos</h1>
+        <div class="grid-3" id="my-courses-grid">
+           <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <section class="page-content" id="view-player" style="display:none; padding:16px;">
+        <button class="btn btn-ghost mb-4" id="btn-back"><i data-lucide="arrow-left"></i> Voltar</button>
+        <div class="player-container">
+          <div>
+             <div class="video-wrapper mb-4">
+                <iframe id="video-iframe" src="" allowfullscreen></iframe>
+                <video id="video-tag" style="display:none; width:100%; height:100%; object-fit: cover;" controls controlsList="nodownload"></video>
+             </div>
+             <h2 id="lesson-title" class="mb-2">...</h2>
+             <div class="text-sm text-gray mb-4" id="lesson-desc">...</div>
+             <div id="lesson-resource-container" style="display:none;"></div>
+             <div class="flex justify-between mt-8 border-t pt-4">
+                <button class="btn btn-secondary" id="btn-prev-lesson">Anterior</button>
+                <button class="btn btn-primary" id="btn-complete-lesson">Marcar como Concluída</button>
+                <button class="btn btn-secondary" id="btn-next-lesson">Próxima</button>
+             </div>
+          </div>
+          <div class="lessons-list">
+             <div class="lessons-list-header">Aulas do Curso <span id="progress-text" class="text-sm">0%</span></div>
+             <div class="progress-bar-container px-2 pt-2"><div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div></div>
+             <div class="lessons-content mt-4" id="lessons-sidebar-list">
+               <!-- Injected -->
+             </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  <script type="module" src="/assets/js/portal.js"></script>
+</body>
+</html>

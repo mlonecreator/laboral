@@ -1,0 +1,94 @@
+/* Fake Enrollments page to fulfill requirements */
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrículas - Laboral Admin</title>
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/layout.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/pages.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a href="/admin/dashboard.html" class="sidebar-header"><i data-lucide="book-open"></i><span>Laboral</span></a>
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard.html" class="nav-item"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a>
+        <a href="/admin/courses.html" class="nav-item"><i data-lucide="graduation-cap"></i> <span>Cursos</span></a>
+        <a href="/admin/students.html" class="nav-item"><i data-lucide="users"></i> <span>Alunos</span></a>
+        <a href="/admin/enrollments.html" class="nav-item active"><i data-lucide="clipboard-list"></i> <span>Matrículas</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div data-user="avatar"></div>
+        <div class="user-info"><span class="name" data-user="name">Admin</span></div>
+        <button id="logout-btn" class="icon-btn"><i data-lucide="log-out"></i></button>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="top-header">
+        <div class="flex items-center gap-4"><button class="mobile-toggle"><i data-lucide="menu"></i></button><h2>Matrículas</h2></div>
+      </header>
+      <section class="page-content">
+        <div class="page-header">
+          <div><h1 class="mb-4">Matrículas</h1><p class="text-gray" id="tot-enroll">0 Matrículas</p></div>
+          <button class="btn btn-primary" onclick="window.enrollModal.open()"><i data-lucide="plus"></i> Matricular Aluno</button>
+        </div>
+        
+        <div class="data-table">
+          <div class="data-table-header" style="grid-template-columns: 2fr 2fr 1fr 1fr 1fr;">
+            <div>Aluno</div>
+            <div>Curso</div>
+            <div>Data de Matrícula</div>
+            <div>Estado</div>
+            <div>Ações</div>
+          </div>
+          <div id="enrollments-table-body">
+             <!-- Enrollments rows go here -->
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal Enroll -->
+  <div class="modal-overlay" id="modal-enroll">
+    <div class="modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <h2>Nova Matrícula</h2>
+        <button class="modal-close"><i data-lucide="x"></i></button>
+      </div>
+      <form id="enroll-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Aluno *</label>
+            <select id="e-student" class="form-control" required>
+              <option value="">A carregar alunos...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Curso *</label>
+            <select id="e-course" class="form-control" required>
+              <option value="">A carregar cursos...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Estado da Matrícula</label>
+            <select id="e-status" class="form-control">
+              <option value="active">Activa</option>
+              <option value="suspended">Suspensa</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-enroll">Matricular</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/assets/js/enrollments.js"></script>
+</body>
+</html>
