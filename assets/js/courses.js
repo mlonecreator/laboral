@@ -269,8 +269,18 @@ async function renderCourses() {
 
     const cardsPromises = courses.map(async (c) => {
       const badgeColor = c.status === 'published' ? 'success' : 'neutral';
-      const { count: numAlunos } = await window.db.supabase.from('enrollments').select('*', { count: 'exact', head: true }).eq('course_id', c.id);
-      const { count: numLessons } = await window.db.supabase.from('lessons').select('*', { count: 'exact', head: true }).eq('course_id', c.id);
+      let numAlunos = 0;
+      let numLessons = 0;
+
+      try {
+        const { count } = await window.db.supabase.from('enrollments').select('*', { count: 'exact', head: true }).eq('course_id', c.id);
+        numAlunos = count || 0;
+      } catch (e) { console.warn("Erro ao contar alunos", e); }
+
+      try {
+        const { count } = await window.db.supabase.from('lessons').select('*', { count: 'exact', head: true }).eq('course_id', c.id);
+        numLessons = count || 0;
+      } catch (e) { console.warn("Erro ao contar aulas", e); }
       
       return `
         <div class="card card-course">
