@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       await renderCourses();
     } catch (err) {
       console.error(err);
-      ui.toast('Erro ao guardar curso.', 'error');
+      ui.toast('Erro ao guardar curso: ' + (err.message || err.details || 'Verifique a consola'), 'error');
     } finally {
       ui.setLoading(btn, false);
     }
