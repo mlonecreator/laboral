@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Se já estiver logado, redireciona
   const user = auth.getCurrentUser();
   if (user) {
-    window.location.href = user.role === 'admin' ? '/admin/dashboard.html' : '/student/portal.html';
+    window.location.href = user.role === 'admin' ? '/dashboard.html' : '/student/portal.html';
   }
 
   const form = document.getElementById('login-form');
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
          await new Promise(r => setTimeout(r, 1000));
       }
       
-      window.location.href = userObj.role === 'admin' ? '/admin/dashboard.html' : '/student/portal.html';
+    window.location.href = userObj.role === 'admin' ? '/dashboard.html' : '/student/portal.html';
       
     } catch (err) {
       ui.toast(err.message, 'error');

@@ -13,10 +13,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        dashboard: resolve(__dirname, 'admin/dashboard.html'),
-        courses: resolve(__dirname, 'admin/courses.html'),
-        students: resolve(__dirname, 'admin/students.html'),
-        enrollments: resolve(__dirname, 'admin/enrollments.html'),
+        dashboard: resolve(__dirname, 'dashboard.html'),
+        courses: resolve(__dirname, 'courses.html'),
+        students: resolve(__dirname, 'students.html'),
+        enrollments: resolve(__dirname, 'enrollments.html'),
         portal: resolve(__dirname, 'student/portal.html'),
       }
     }
