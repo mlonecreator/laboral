@@ -41,23 +41,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('course-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    ui.setLoading(document.getElementById('c-submit'), true);
-    
-    const thumbValue = await processFileAndUrl('c-thumb-file', 'c-thumb', 2);
-
-    const payload = {
-      title: document.getElementById('c-title').value,
-      category: document.getElementById('c-cat').value,
-      level: document.getElementById('c-level').value,
-      description: document.getElementById('c-desc').value,
-      thumbnail: thumbValue || 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-      duration: document.getElementById('c-dur').value,
-      price: document.getElementById('c-price').value,
-      status: document.getElementById('c-status').value,
-    };
-    const id = document.getElementById('c-id').value;
+    const btn = document.getElementById('c-submit');
+    ui.setLoading(btn, true);
     
     try {
+      const thumbValue = await processFileAndUrl('c-thumb-file', 'c-thumb', 2);
+
+      const payload = {
+        title: document.getElementById('c-title').value,
+        category: document.getElementById('c-cat').value,
+        level: document.getElementById('c-level').value,
+        description: document.getElementById('c-desc').value,
+        thumbnail: thumbValue || 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+        duration: document.getElementById('c-dur').value,
+        price: document.getElementById('c-price').value,
+        status: document.getElementById('c-status').value,
+      };
+      const id = document.getElementById('c-id').value;
+      
       if (id) {
         await db.collection('courses').update(id, payload);
         ui.toast('Curso actualizado com sucesso!', 'success');
@@ -68,9 +69,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       ui.closeModal('modal-course');
       await renderCourses();
     } catch (err) {
+      console.error(err);
       ui.toast('Erro ao guardar curso.', 'error');
     } finally {
-      ui.setLoading(document.getElementById('c-submit'), false);
+      ui.setLoading(btn, false);
     }
   });
   
@@ -150,27 +152,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     const submitBtn = e.target.querySelector('button[type="submit"]');
     ui.setLoading(submitBtn, true);
 
-    const videoValue = await processFileAndUrl('l-video-file', 'l-video', 10);
-    const resourceValue = await processFileAndUrl('l-resource-file', 'l-resource', 5);
-
-    if (!videoValue) {
-       ui.toast('É obrigatório fornecer um vídeo!', 'error');
-       ui.setLoading(submitBtn, false);
-       return;
-    }
-
-    const payload = {
-      course_id: currentManagingCourseId,
-      title: document.getElementById('l-title').value,
-      subtitle: document.getElementById('l-subtitle').value,
-      video_url: videoValue,
-      duration: document.getElementById('l-dur').value,
-      order: parseInt(document.getElementById('l-order').value) || 1,
-      description: document.getElementById('l-desc').value,
-      resource_url: resourceValue,
-    };
-
     try {
+      const videoValue = await processFileAndUrl('l-video-file', 'l-video', 10);
+      const resourceValue = await processFileAndUrl('l-resource-file', 'l-resource', 5);
+
+      if (!videoValue) {
+         ui.toast('É obrigatório fornecer um vídeo!', 'error');
+         ui.setLoading(submitBtn, false);
+         return;
+      }
+
+      const payload = {
+        course_id: currentManagingCourseId,
+        title: document.getElementById('l-title').value,
+        subtitle: document.getElementById('l-subtitle').value,
+        video_url: videoValue,
+        duration: document.getElementById('l-dur').value,
+        order: parseInt(document.getElementById('l-order').value) || 1,
+        description: document.getElementById('l-desc').value,
+        resource_url: resourceValue,
+      };
+
       if (lId) {
         await window.db.supabase.from('lessons').update(payload).eq('id', lId);
         ui.toast('Aula atualizada!', 'success');
@@ -182,6 +184,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       await renderLessonsList(course);
       await renderCourses();
     } catch (err) {
+      console.error(err);
       ui.toast('Erro ao guardar aula.', 'error');
     } finally {
       ui.setLoading(submitBtn, false);

@@ -42,4 +42,5 @@ class SupabaseDatabase {
 }
 
 export const db = new SupabaseDatabase();
+db.supabase = supabase;
 window.db = db;
