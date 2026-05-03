@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     ui.setLoading(submitBtn, true);
 
     try {
-      const videoValue = await processFileAndUrl('l-video-file', 'l-video', 10);
+      const videoValue = await processFileAndUrl('l-video-file', 'l-video', 500);
       const resourceValue = await processFileAndUrl('l-resource-file', 'l-resource', 5);
 
       if (!videoValue) {
