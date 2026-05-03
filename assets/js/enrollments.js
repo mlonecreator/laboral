@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       ui.toast('Estado da matrícula atualizado!', 'success');
       await renderEnrollments();
     } catch (err) {
-      ui.toast('Erro ao atualizar matrícula.', 'error');
+      console.error(err);
+      ui.toast('Erro ao atualizar matrícula: ' + (err.message || ''), 'error');
     }
   };
 
@@ -71,7 +72,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         ui.toast('Matrícula apagada.', 'success');
         await renderEnrollments();
       } catch (err) {
-        ui.toast('Erro ao apagar matrícula.', 'error');
+        console.error(err);
+        ui.toast('Erro ao apagar matrícula: ' + (err.message || ''), 'error');
       }
     }
   };
@@ -125,10 +127,10 @@ async function renderEnrollments() {
           <div class="text-sm text-gray">${date}</div>
           <div>${statusBadge}</div>
           <div class="flex gap-2">
-            <button class="btn btn-secondary btn-sm" onclick="toggleEnrollmentStatus('${e.id}', '${e.status}')">
+            <button class="btn btn-secondary btn-sm" onclick="window.toggleEnrollmentStatus('${e.id}', '${e.status}')">
               ${e.status === 'active' ? 'Suspender' : 'Ativar'}
             </button>
-            <button class="btn btn-danger btn-ghost btn-sm px-2 py-1" onclick="deleteEnrollment('${e.id}')">
+            <button class="btn btn-danger btn-ghost btn-sm px-2 py-1" onclick="window.deleteEnrollment('${e.id}')">
               <i data-lucide="trash-2"></i>
             </button>
           </div>

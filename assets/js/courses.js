@@ -249,7 +249,8 @@ window.deleteCourse = async (id) => {
       ui.toast('Curso removido!', 'success');
       await renderCourses();
     } catch (e) {
-      ui.toast('Erro ao apagar curso.', 'error');
+      console.error(e);
+      ui.toast('Erro ao apagar curso: ' + (e.message || 'Verifique se existem aulas ou matrículas associadas'), 'error');
     }
   }
 };
@@ -291,7 +292,7 @@ async function renderCourses() {
             <div class="flex gap-2 mt-4">
                <button class="btn btn-secondary flex-1" onclick="window.coursesModal.open('${c.id}')"><i data-lucide="edit"></i></button>
                <button class="btn btn-secondary flex-1" onclick="window.manageLessons('${c.id}')" title="Gerir Aulas"><i data-lucide="list-video"></i></button>
-               <button class="btn btn-danger btn-ghost" onclick="deleteCourse('${c.id}')"><i data-lucide="trash-2"></i></button>
+               <button class="btn btn-danger btn-ghost" onclick="window.deleteCourse('${c.id}')"><i data-lucide="trash-2"></i></button>
             </div>
           </div>
         </div>
