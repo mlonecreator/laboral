@@ -49,7 +49,7 @@ export const auth = {
       return null;
     }
     if (requiredRole && user.role !== requiredRole) {
-      window.location.href = user.role === 'admin' ? '/admin/dashboard.html' : '/student/portal.html';
+      window.location.href = user.role === 'admin' ? '/dashboard.html' : '/student/portal.html';
       return null;
     }
     return user;
